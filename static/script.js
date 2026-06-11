@@ -464,7 +464,7 @@ function openEmailModal(profId) {
     if (!prof) return;
     
     const lastName = prof.name.split(' ').pop();
-    const studentName = "Arshia Sharma";
+    const studentName = "[Your Name]";
     const researchArea = prof.research[0];
     const interests = prof.interests;
     const skills = "Python, Flask, JavaScript, data analysis, and research tools";
