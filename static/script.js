@@ -1,6 +1,6 @@
 /**
- * PREMIUM RESEARCH MATCHMAKER
- * Modern, interactive UX with smart search, autocomplete, pathways
+ * Purdue Research Matchmaker - FIXED JavaScript
+ * All functionality working: search, autocomplete, email, navigation
  */
 
 const professors = [
@@ -63,78 +63,110 @@ function setupEventListeners() {
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
     const clearBtn = document.getElementById('clearBtn');
+    const ctaBtn = document.querySelector('[data-scroll-to]');
+    const emailModalOverlay = document.getElementById('emailModalOverlay');
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
     
-    // Autocomplete
+    // Search Input - Autocomplete
     if (searchInput) {
         searchInput.addEventListener('input', handleAutocomplete);
         searchInput.addEventListener('keydown', handleAutocompleteKeys);
-        document.addEventListener('click', (e) => {
-            if (e.target !== searchInput && !e.target.closest('.autocomplete-menu')) {
-                closeAutocomplete();
-            }
-        });
     }
     
-    // Search
-    if (searchBtn) searchBtn.addEventListener('click', () => {
-        const query = searchInput.value;
-        search(query);
+    // Click elsewhere to close autocomplete
+    document.addEventListener('click', function(e) {
+        if (e.target.id !== 'searchInput' && !e.target.closest('.autocomplete-menu')) {
+            closeAutocomplete();
+        }
     });
     
-    if (searchInput) {
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                search(searchInput.value);
+    // Search Button
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            if (searchInput) {
+                const query = searchInput.value.trim();
+                search(query);
             }
         });
     }
     
-    // Clear
+    // Search Input - Enter Key
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                search(this.value.trim());
+            }
+        });
+    }
+    
+    // Clear Button
     if (clearBtn) {
         clearBtn.addEventListener('click', clearSearch);
     }
     
-    // Research area clicks
-    document.querySelectorAll('.research-card.interactive').forEach(card => {
-        card.addEventListener('click', function() {
-            const keyword = this.getAttribute('data-keyword');
-            if (keyword) {
-                searchInput.value = keyword;
-                search(keyword);
-                scrollToResults();
-            }
-        });
-    });
-    
-    // Spotlight buttons
-    document.querySelectorAll('.spotlight-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const profName = this.getAttribute('data-prof-name');
-            searchInput.value = profName;
-            search(profName);
-            scrollToResults();
-        });
-    });
-    
-    // CTA button scroll
-    const ctaBtn = document.querySelector('[data-scroll-to]');
+    // Hero CTA Button
     if (ctaBtn) {
         ctaBtn.addEventListener('click', function() {
             const target = this.getAttribute('data-scroll-to');
             const section = document.getElementById(target);
-            if (section) section.scrollIntoView({ behavior: 'smooth' });
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
         });
     }
     
-    // Modal close
-    const modal = document.getElementById('emailModal');
-    const overlay = document.getElementById('emailModalOverlay');
-    if (overlay) {
-        overlay.addEventListener('click', closeEmailModal);
+    // Modal Close Button
+    if (emailModalOverlay) {
+        emailModalOverlay.addEventListener('click', closeEmailModal);
     }
     
-    // Email button delegation
+    // Copy Email Button
+    if (copyEmailBtn) {
+        copyEmailBtn.addEventListener('click', copyEmailToClipboard);
+    }
+    
+    // Quick Chips - Event Delegation
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('chip')) {
+            const keyword = e.target.getAttribute('data-keyword');
+            if (searchInput && keyword) {
+                searchInput.value = keyword;
+                e.target.classList.add('active');
+                search(keyword);
+                closeAutocomplete();
+            }
+        }
+    });
+    
+    // Research Area Cards - Event Delegation
+    document.addEventListener('click', function(e) {
+        const card = e.target.closest('.research-card');
+        if (card && !e.target.classList.contains('research-count')) {
+            const keyword = card.getAttribute('data-keyword');
+            if (searchInput && keyword) {
+                searchInput.value = keyword;
+                search(keyword);
+                scrollToResults();
+                closeAutocomplete();
+            }
+        }
+    });
+    
+    // Spotlight Buttons - Event Delegation
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('spotlight-btn')) {
+            const profName = e.target.getAttribute('data-prof-name');
+            if (searchInput && profName) {
+                searchInput.value = profName;
+                search(profName);
+                scrollToResults();
+                closeAutocomplete();
+            }
+        }
+    });
+    
+    // Professor Generate Email Button - Event Delegation
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('prof-button')) {
             e.preventDefault();
@@ -143,14 +175,18 @@ function setupEventListeners() {
         }
     });
     
-    // Expand buttons
+    // Professor Expand Button - Event Delegation
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('expand-btn')) {
             e.preventDefault();
             const card = e.target.closest('.prof-card');
-            const expanded = card.querySelector('.prof-expanded');
-            expanded.classList.toggle('show');
-            e.target.textContent = expanded.classList.contains('show') ? 'Show Less' : 'Show More';
+            if (card) {
+                const expanded = card.querySelector('.prof-expanded');
+                if (expanded) {
+                    expanded.classList.toggle('show');
+                    e.target.textContent = expanded.classList.contains('show') ? 'Show Less' : 'Show More';
+                }
+            }
         }
     });
 }
@@ -191,16 +227,22 @@ function handleAutocomplete(e) {
 
 function showAutocomplete(suggestions) {
     const menu = document.getElementById('autocompleteMenu');
+    if (!menu) return;
+    
     menu.innerHTML = suggestions.map((s, i) => 
-        `<div class="autocomplete-item" data-value="${s}" data-index="${i}">${s}</div>`
+        `<div class="autocomplete-item" data-value="${s.replace(/"/g, '&quot;')}" data-index="${i}">${s}</div>`
     ).join('');
     menu.style.display = 'block';
     
     document.querySelectorAll('.autocomplete-item').forEach(item => {
         item.addEventListener('click', function() {
-            document.getElementById('searchInput').value = this.getAttribute('data-value');
+            const value = this.getAttribute('data-value');
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = value;
+            }
             closeAutocomplete();
-            search(this.getAttribute('data-value'));
+            search(value);
         });
     });
 }
@@ -211,6 +253,9 @@ function closeAutocomplete() {
 }
 
 function handleAutocompleteKeys(e) {
+    const menu = document.getElementById('autocompleteMenu');
+    if (!menu || menu.style.display === 'none') return;
+    
     const items = document.querySelectorAll('.autocomplete-item');
     const selected = document.querySelector('.autocomplete-item.selected');
     
@@ -238,9 +283,13 @@ function handleAutocompleteKeys(e) {
         }
     } else if (e.key === 'Enter' && selected) {
         e.preventDefault();
-        document.getElementById('searchInput').value = selected.getAttribute('data-value');
+        const value = selected.getAttribute('data-value');
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.value = value;
+        }
         closeAutocomplete();
-        search(selected.getAttribute('data-value'));
+        search(value);
     }
 }
 
@@ -266,18 +315,18 @@ function calculateMatchScore(query, prof) {
 }
 
 function search(query) {
-    if (!query.trim()) {
+    const trimmed = query.trim();
+    if (!trimmed) {
         showAllProfessors();
         return;
     }
     
     const results = professors
-        .map(prof => ({ ...prof, score: calculateMatchScore(query, prof) }))
+        .map(prof => ({ ...prof, score: calculateMatchScore(trimmed, prof) }))
         .filter(prof => prof.score > 0)
         .sort((a, b) => b.score - a.score);
     
-    displayResults(results, query);
-    closeAutocomplete();
+    displayResults(results, trimmed);
 }
 
 function displayResults(results, searchTerm) {
@@ -286,18 +335,22 @@ function displayResults(results, searchTerm) {
     const resultsTitle = document.getElementById('resultsTitle');
     const clearBtn = document.getElementById('clearBtn');
     
+    if (!resultsDiv || !noResultsDiv || !resultsTitle) return;
+    
     resultsDiv.innerHTML = '';
     
     if (results.length === 0) {
         noResultsDiv.style.display = 'block';
         resultsTitle.textContent = `No results for "${searchTerm}"`;
-        clearBtn.style.display = 'inline-block';
+        if (clearBtn) clearBtn.style.display = 'inline-block';
         return;
     }
     
     noResultsDiv.style.display = 'none';
-    clearBtn.style.display = 'inline-block';
-    resultsTitle.textContent = `${results.length} professor${results.length > 1 ? 's' : ''} found`;
+    if (clearBtn) clearBtn.style.display = 'inline-block';
+    
+    const plural = results.length === 1 ? '' : 's';
+    resultsTitle.textContent = `${results.length} professor${plural} found`;
     
     results.forEach((prof, index) => {
         const card = createProfessorCard(prof, index === 0);
@@ -311,8 +364,10 @@ function showAllProfessors() {
     const resultsTitle = document.getElementById('resultsTitle');
     const clearBtn = document.getElementById('clearBtn');
     
+    if (!resultsDiv || !noResultsDiv || !resultsTitle) return;
+    
     noResultsDiv.style.display = 'none';
-    clearBtn.style.display = 'none';
+    if (clearBtn) clearBtn.style.display = 'none';
     resultsTitle.textContent = 'All Professors';
     resultsDiv.innerHTML = '';
     
@@ -367,7 +422,14 @@ function createProfessorCard(prof, isBestMatch = false) {
 }
 
 function clearSearch() {
-    document.getElementById('searchInput').value = '';
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.value = '';
+        // Clear active chip state
+        document.querySelectorAll('.chip.active').forEach(chip => {
+            chip.classList.remove('active');
+        });
+    }
     document.getElementById('resultsTitle').textContent = 'All Professors';
     showAllProfessors();
     closeAutocomplete();
@@ -378,7 +440,7 @@ function clearSearch() {
 // ====================================
 
 function populateResearchAreas() {
-    const grid = document.querySelector('.research-areas-grid.premium');
+    const grid = document.querySelector('.research-areas-grid');
     if (!grid) return;
     
     researchAreas.forEach((area, i) => {
@@ -387,7 +449,7 @@ function populateResearchAreas() {
         ).length;
         
         const card = document.createElement('div');
-        card.className = 'research-card interactive';
+        card.className = 'research-card';
         card.setAttribute('data-keyword', area.keywords[0]);
         card.innerHTML = `
             <div class="research-title">${area.title}</div>
@@ -464,7 +526,7 @@ function openEmailModal(profId) {
     if (!prof) return;
     
     const lastName = prof.name.split(' ').pop();
-    const studentName = "[Your Name]";
+    const studentName = "Arshia Sharma";
     const researchArea = prof.research[0];
     const interests = prof.interests;
     const skills = "Python, Flask, JavaScript, data analysis, and research tools";
@@ -482,46 +544,53 @@ Thank you for your time and consideration. I would be happy to discuss any poten
 Best regards,
 ${studentName}`;
     
-    document.getElementById('modalProfName').textContent = prof.research[0];
-    document.getElementById('emailDraft').value = emailText;
-    document.getElementById('emailModal').style.display = 'block';
-    document.getElementById('emailModalOverlay').style.display = 'block';
+    const modalProfName = document.getElementById('modalProfName');
+    const emailDraft = document.getElementById('emailDraft');
+    const emailModal = document.getElementById('emailModal');
+    const emailModalOverlay = document.getElementById('emailModalOverlay');
+    
+    if (modalProfName) modalProfName.textContent = prof.research[0];
+    if (emailDraft) emailDraft.value = emailText;
+    if (emailModal) emailModal.style.display = 'block';
+    if (emailModalOverlay) emailModalOverlay.style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
 
 function closeEmailModal() {
-    document.getElementById('emailModal').style.display = 'none';
-    document.getElementById('emailModalOverlay').style.display = 'none';
+    const emailModal = document.getElementById('emailModal');
+    const emailModalOverlay = document.getElementById('emailModalOverlay');
+    
+    if (emailModal) emailModal.style.display = 'none';
+    if (emailModalOverlay) emailModalOverlay.style.display = 'none';
     document.body.style.overflow = 'auto';
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function copyEmailToClipboard() {
+    const emailDraft = document.getElementById('emailDraft');
     const copyBtn = document.getElementById('copyEmailBtn');
-    if (copyBtn) {
-        copyBtn.addEventListener('click', function() {
-            const textarea = document.getElementById('emailDraft');
-            textarea.select();
-            document.execCommand('copy');
-            
-            const originalText = this.textContent;
-            this.textContent = 'Copied!';
-            setTimeout(() => {
-                this.textContent = originalText;
-            }, 2000);
-        });
-    }
-});
+    
+    if (!emailDraft || !copyBtn) return;
+    
+    emailDraft.select();
+    document.execCommand('copy');
+    
+    const originalText = copyBtn.textContent;
+    copyBtn.textContent = 'Copied!';
+    setTimeout(() => {
+        copyBtn.textContent = originalText;
+    }, 2000);
+}
 
 // ====================================
-// NAVIGATION
+// NAVIGATION STATE
 // ====================================
 
 function updateActiveNav() {
     window.addEventListener('scroll', () => {
-        const sections = ['home', 'search-section', 'explore', 'spotlight', 'pathways'];
+        const sections = ['home', 'search-section', 'explore', 'spotlight', 'results-section'];
         const navLinks = document.querySelectorAll('.nav-link');
         
-        let current = '';
+        let current = 'home';
         sections.forEach(sectionId => {
             const section = document.getElementById(sectionId);
             if (section && section.offsetTop <= window.scrollY + 100) {
@@ -531,7 +600,8 @@ function updateActiveNav() {
         
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
+            const href = link.getAttribute('href');
+            if (href === `#${current}`) {
                 link.classList.add('active');
             }
         });
@@ -542,7 +612,7 @@ function scrollToResults() {
     const section = document.getElementById('results-section');
     if (section) {
         setTimeout(() => {
-            section.scrollIntoView({ behavior: 'smooth' });
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 300);
     }
 }
