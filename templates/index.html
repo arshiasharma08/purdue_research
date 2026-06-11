@@ -18,12 +18,14 @@
     <!-- Header/Navigation -->
     <header class="header">
         <div class="header-inner">
-            <a href="#home" class="logo">Research</a>
+            <a href="#home" class="logo">
+                <span class="logo-main">Purdue Research</span><span class="logo-accent">Matchmaker</span>
+            </a>
             <nav class="nav">
                 <a href="#home" class="nav-link active">Home</a>
-                <a href="#explore" class="nav-link">Explore</a>
-                <a href="#spotlight" class="nav-link">Faculty</a>
-                <a href="#pathways" class="nav-link">Pathways</a>
+                <a href="#explore" class="nav-link">Research Areas</a>
+                <a href="#spotlight" class="nav-link">Professors</a>
+                <a href="#results-section" class="nav-link">Search</a>
             </nav>
         </div>
     </header>
@@ -42,7 +44,7 @@
             <h1 class="hero-title">Find Your <span class="gradient-text">Research Home</span></h1>
             <p class="hero-subtitle">Discover Purdue professors, explore research areas, and start your journey into undergraduate research.</p>
             <div class="hero-cta">
-                <button class="cta-button pulse" data-scroll-to="search-section">Start Exploring</button>
+                <button class="cta-button" data-scroll-to="search-section">Start Exploring</button>
             </div>
         </div>
     </section>
@@ -56,18 +58,16 @@
             </div>
 
             <!-- Search Bar -->
-            <div class="search-wrapper premium">
+            <div class="search-wrapper">
                 <input 
                     type="text" 
                     id="searchInput" 
-                    class="search-input premium" 
+                    class="search-input" 
                     placeholder="Search professors, research areas..."
                     autocomplete="off"
                 >
-                <div class="autocomplete-menu" id="autocompleteMenu" style="display: none;">
-                    <!-- Suggestions appear here -->
-                </div>
-                <button id="searchBtn" class="search-btn premium">Search</button>
+                <div class="autocomplete-menu" id="autocompleteMenu" style="display: none;"></div>
+                <button id="searchBtn" class="search-btn">Search</button>
             </div>
 
             <!-- Quick Research Area Chips -->
@@ -96,7 +96,7 @@
                 <p>Click any area to explore professors and opportunities</p>
             </div>
 
-            <div class="research-areas-grid premium">
+            <div class="research-areas-grid">
                 <!-- Research area cards render here -->
             </div>
         </div>
