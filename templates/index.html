@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,17 +23,27 @@
                 <a href="#home" class="nav-link">Home</a>
                 <a href="#about" class="nav-link">About</a>
                 <a href="#explore" class="nav-link">Explore</a>
-                <a href="#highlights" class="nav-link">Highlights</a>
+                <a href="#featured" class="nav-link">Research Areas</a>
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <!-- Floating particles behind hero -->
+        <div class="hero-particles">
+            <div class="floating-particle p1"></div>
+            <div class="floating-particle p2"></div>
+            <div class="floating-particle p3"></div>
+            <div class="floating-particle p4"></div>
+            <div class="floating-particle p5"></div>
+        </div>
+
         <div class="hero-inner">
             <div class="hero-badge">Research Discovery Tool</div>
-            <h1 class="hero-title">Purdue <span class="gradient-text">Research Matchmaker</span></h1>
-            <p class="hero-subtitle">Explore Purdue professors by research area, compare potential faculty matches, and generate personalized outreach drafts for undergraduate research opportunities.</p>
+            <h1 class="hero-title">Find Purdue <span class="gradient-text">Research Opportunities</span></h1>
+            <p class="hero-subtitle">Purdue Research Matchmaker</p>
+            <p class="hero-description">Explore professors by research area, compare potential faculty matches, and generate personalized outreach drafts for undergraduate research opportunities.</p>
             
             <div class="stats-container">
                 <div class="stat-item">
@@ -140,35 +149,13 @@
         </div>
     </section>
 
-    <!-- Highlights Section -->
-    <section id="highlights" class="section highlights-section">
+    <!-- Featured Research Areas Section -->
+    <section id="featured" class="section featured-section">
         <div class="container">
-            <h2>What I Built</h2>
-            <div class="highlights-grid">
-                <div class="highlight-item">
-                    <div class="highlight-title">Python Flask App</div>
-                    <p>Backend server with template rendering and static file serving</p>
-                </div>
-                <div class="highlight-item">
-                    <div class="highlight-title">JavaScript Search Logic</div>
-                    <p>Real-time professor filtering with event delegation</p>
-                </div>
-                <div class="highlight-item">
-                    <div class="highlight-title">Keyword Matching</div>
-                    <p>Algorithm that ranks professors by relevance score</p>
-                </div>
-                <div class="highlight-item">
-                    <div class="highlight-title">Email Draft Generator</div>
-                    <p>Dynamic email templates with personalization</p>
-                </div>
-                <div class="highlight-item">
-                    <div class="highlight-title">Responsive Frontend</div>
-                    <p>Modern design that works on desktop, tablet, and mobile</p>
-                </div>
-                <div class="highlight-item">
-                    <div class="highlight-title">Research Outreach Prep</div>
-                    <p>Practical tool for preparing undergraduate research applications</p>
-                </div>
+            <h2>Featured Research Areas</h2>
+            <p class="section-desc">Explore the main research domains at Purdue.</p>
+            <div class="research-areas-grid">
+                <!-- Research area cards render here -->
             </div>
         </div>
     </section>
