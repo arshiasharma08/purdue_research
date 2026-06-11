@@ -1,7 +1,6 @@
-
 /**
- * Purdue Research Matchmaker - JavaScript
- * Search, filter, and email generation functionality
+ * Purdue Research Matchmaker - JavaScript (Updated)
+ * Search, filter, email generation, and featured research areas
  */
 
 // ====================================
@@ -161,13 +160,44 @@ const professors = [
     }
 ];
 
+// Research areas configuration
+const researchAreas = [
+    {
+        title: "Artificial Intelligence",
+        description: "Explore AI systems, machine learning models, and intelligent automation.",
+        keywords: ["ai", "machine learning", "learning", "algorithms"]
+    },
+    {
+        title: "Machine Learning",
+        description: "Dive into algorithms that learn from data and drive modern applications.",
+        keywords: ["machine learning", "learning", "algorithms", "data science", "optimization"]
+    },
+    {
+        title: "NLP",
+        description: "Work with natural language processing and computational linguistics research.",
+        keywords: ["nlp", "language", "text", "processing"]
+    },
+    {
+        title: "Human Computer Interaction",
+        description: "Design and study how humans interact with technology systems.",
+        keywords: ["hci", "interaction", "human", "interface", "design", "ui"]
+    },
+    {
+        title: "Security",
+        description: "Research cybersecurity, privacy, and protection systems.",
+        keywords: ["security", "privacy", "access control", "cybersecurity", "protection"]
+    },
+    {
+        title: "Computer Vision",
+        description: "Develop visual understanding systems and image processing technologies.",
+        keywords: ["vision", "computer vision", "image", "graphics", "robotics"]
+    }
+];
+
 // ====================================
 // HELPER FUNCTIONS
 // ====================================
 
-/**
- * Escape HTML special characters to prevent XSS
- */
 function escapeHtml(text) {
     const map = {
         '&': '&amp;',
@@ -179,39 +209,63 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-/**
- * Calculate match score between query and professor
- * Returns percentage 0-100
- */
 function calculateMatchScore(query, prof) {
     const q = query.toLowerCase().trim();
     if (!q) return 0;
     
     let hits = 0;
     
-    // Check name
     if (prof.name.toLowerCase().includes(q)) hits += 2;
     
-    // Check research areas
     prof.research.forEach(area => {
         if (area.toLowerCase().includes(q)) hits += 2;
     });
     
-    // Check keywords
     prof.keywords.forEach(keyword => {
         if (keyword.toLowerCase().includes(q)) hits += 1;
     });
     
-    // Calculate percentage
     const totalWeight = (prof.research.length * 2) + prof.keywords.length + 2;
     const score = Math.round((hits / totalWeight) * 100);
     
     return Math.min(score, 100);
 }
 
-/**
- * Search professors based on query
- */
+function countProfessorsInArea(areaKeywords) {
+    return professors.filter(prof => {
+        return areaKeywords.some(keyword => 
+            prof.keywords.some(k => k.includes(keyword) || keyword.includes(k))
+        );
+    }).length;
+}
+
+// ====================================
+// POPULATE FEATURED RESEARCH AREAS
+// ====================================
+
+function populateResearchAreas() {
+    const grid = document.querySelector('.research-areas-grid');
+    if (!grid) return;
+    
+    researchAreas.forEach(area => {
+        const count = countProfessorsInArea(area.keywords);
+        const card = document.createElement('div');
+        card.className = 'research-card';
+        
+        card.innerHTML = `
+            <div class="research-title">${escapeHtml(area.title)}</div>
+            <div class="research-description">${escapeHtml(area.description)}</div>
+            <div class="research-count">${count} Professor${count !== 1 ? 's' : ''}</div>
+        `;
+        
+        grid.appendChild(card);
+    });
+}
+
+// ====================================
+// SEARCH FUNCTIONS
+// ====================================
+
 function searchProfessors(query) {
     if (!query.trim()) {
         showAllProfessors();
@@ -229,9 +283,6 @@ function searchProfessors(query) {
     displayResults(results, query);
 }
 
-/**
- * Display search results
- */
 function displayResults(results, searchTerm) {
     const resultsDiv = document.getElementById('results');
     const noResultsDiv = document.getElementById('noResults');
@@ -258,9 +309,6 @@ function displayResults(results, searchTerm) {
     });
 }
 
-/**
- * Show all professors
- */
 function showAllProfessors() {
     const resultsDiv = document.getElementById('results');
     const noResultsDiv = document.getElementById('noResults');
@@ -279,9 +327,6 @@ function showAllProfessors() {
     });
 }
 
-/**
- * Create a professor card element
- */
 function createProfessorCard(prof) {
     const card = document.createElement('div');
     card.className = 'prof-card';
@@ -318,9 +363,10 @@ function createProfessorCard(prof) {
     return card;
 }
 
-/**
- * Generate email draft
- */
+// ====================================
+// EMAIL GENERATION WITH PROGRESS BARS
+// ====================================
+
 function generateEmailDraft(profId) {
     const prof = professors.find(p => p.id === profId);
     if (!prof) return;
@@ -347,17 +393,30 @@ Arshia Sharma`;
     if (!emailDraft || !emailSection) return;
     
     emailDraft.value = emailText;
+    emailSection.innerHTML = `
+        <h3>Email Draft</h3>
+        <div class="progress-container">
+            <div class="progress-label">Personalization Complete</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="--progress: 100%;"></div>
+            </div>
+        </div>
+        <textarea id="emailDraft" class="email-input" readonly>${escapeHtml(emailText)}</textarea>
+        <button id="copyEmailBtn" class="btn-copy">Copy Email</button>
+    `;
+    
     emailSection.style.display = 'block';
     
-    // Smooth scroll
+    const copyBtn = document.getElementById('copyEmailBtn');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', copyEmailToClipboard);
+    }
+    
     setTimeout(() => {
         emailSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
 }
 
-/**
- * Copy email to clipboard
- */
 function copyEmailToClipboard() {
     const emailDraft = document.getElementById('emailDraft');
     const copyBtn = document.getElementById('copyEmailBtn');
@@ -375,9 +434,6 @@ function copyEmailToClipboard() {
     }, 2000);
 }
 
-/**
- * Clear search
- */
 function clearSearch() {
     const searchInput = document.getElementById('searchInput');
     const emailSection = document.getElementById('emailSection');
@@ -387,7 +443,6 @@ function clearSearch() {
     
     showAllProfessors();
     
-    // Remove active chips
     document.querySelectorAll('.chip').forEach(chip => {
         chip.classList.remove('active');
     });
@@ -398,6 +453,9 @@ function clearSearch() {
 // ====================================
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Populate featured research areas
+    populateResearchAreas();
+    
     // Show all professors initially
     showAllProfessors();
     
@@ -426,7 +484,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const keyword = this.getAttribute('data-keyword');
             const searchInput = document.getElementById('searchInput');
             
-            // Toggle active state
             this.classList.toggle('active');
             
             if (this.classList.contains('active')) {
@@ -443,12 +500,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const clearBtn = document.getElementById('clearBtn');
     if (clearBtn) {
         clearBtn.addEventListener('click', clearSearch);
-    }
-    
-    // Copy email button
-    const copyBtn = document.getElementById('copyEmailBtn');
-    if (copyBtn) {
-        copyBtn.addEventListener('click', copyEmailToClipboard);
     }
 });
 
