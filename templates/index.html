@@ -15,22 +15,21 @@
         <div class="particles"></div>
     </div>
 
-    <!-- Header -->
+    <!-- Header/Navigation -->
     <header class="header">
         <div class="header-inner">
-            <div class="logo">Purdue Research Matchmaker</div>
+            <a href="#home" class="logo">Research</a>
             <nav class="nav">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#about" class="nav-link">About</a>
+                <a href="#home" class="nav-link active">Home</a>
                 <a href="#explore" class="nav-link">Explore</a>
-                <a href="#featured" class="nav-link">Research Areas</a>
+                <a href="#spotlight" class="nav-link">Faculty</a>
+                <a href="#pathways" class="nav-link">Pathways</a>
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <!-- Floating particles behind hero -->
         <div class="hero-particles">
             <div class="floating-particle p1"></div>
             <div class="floating-particle p2"></div>
@@ -40,92 +39,110 @@
         </div>
 
         <div class="hero-inner">
-            <div class="hero-badge">Research Discovery Tool</div>
-            <h1 class="hero-title">Find Purdue <span class="gradient-text">Research Opportunities</span></h1>
-            <p class="hero-subtitle">Purdue Research Matchmaker</p>
-            <p class="hero-description">Explore professors by research area, compare potential faculty matches, and generate personalized outreach drafts for undergraduate research opportunities.</p>
-            
-            <div class="stats-container">
-                <div class="stat-item">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-text">Faculty Profiles</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">8+</div>
-                    <div class="stat-text">Research Areas</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">Instant</div>
-                    <div class="stat-text">Keyword Matching</div>
-                </div>
-            </div>
-
-            <a href="#explore" class="cta-button">Start Exploring</a>
-            <p class="hero-note">Independent student-built tool for research exploration.</p>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section about-section">
-        <div class="container">
-            <h2>Why I Built This</h2>
-            <div class="about-card">
-                <p class="about-text">As I started exploring undergraduate research at Purdue, I wanted a better way to organize professors by research interests and identify labs that aligned with my goals. I built this project to practice Python Flask, JavaScript filtering, frontend design, and research outreach preparation.</p>
-                
-                <p class="about-text">This tool helps students quickly search faculty profiles, compare research areas, and generate a starting point for personalized outreach emails.</p>
-
-                <div class="features-grid">
-                    <div class="feature-box">
-                        <div class="feature-title">Smart Search</div>
-                        <p>Filter professors by keyword or research area</p>
-                    </div>
-                    <div class="feature-box">
-                        <div class="feature-title">Research Matching</div>
-                        <p>Find labs aligned with your interests</p>
-                    </div>
-                    <div class="feature-box">
-                        <div class="feature-title">Email Generator</div>
-                        <p>Create personalized outreach emails instantly</p>
-                    </div>
-                </div>
+            <h1 class="hero-title">Find Your <span class="gradient-text">Research Home</span></h1>
+            <p class="hero-subtitle">Discover Purdue professors, explore research areas, and start your journey into undergraduate research.</p>
+            <div class="hero-cta">
+                <button class="cta-button pulse" data-scroll-to="search-section">Start Exploring</button>
             </div>
         </div>
     </section>
 
-    <!-- Explore Section -->
-    <section id="explore" class="section explore-section">
+    <!-- SEARCH-FIRST SECTION -->
+    <section id="search-section" class="search-section">
         <div class="container">
-            <h2>Find Professors</h2>
-            <p class="section-desc">Search by professor name, research area, or keyword.</p>
-
-            <!-- Filter Chips -->
-            <div class="chips-container">
-                <button class="chip" data-keyword="machine learning">Machine Learning</button>
-                <button class="chip" data-keyword="NLP">NLP</button>
-                <button class="chip" data-keyword="security">Security</button>
-                <button class="chip" data-keyword="privacy">Privacy</button>
-                <button class="chip" data-keyword="HCI">HCI</button>
-                <button class="chip" data-keyword="computer vision">Computer Vision</button>
-                <button class="chip" data-keyword="robotics">Robotics</button>
-                <button class="chip" data-keyword="databases">Databases</button>
-                <button class="chip" data-keyword="data science">Data Science</button>
-                <button class="chip" data-keyword="AI">AI</button>
+            <div class="search-header">
+                <h2>What research interests you?</h2>
+                <p>Find professors and research groups aligned with your goals</p>
             </div>
 
             <!-- Search Bar -->
-            <div class="search-wrapper">
+            <div class="search-wrapper premium">
                 <input 
                     type="text" 
                     id="searchInput" 
-                    class="search-input" 
-                    placeholder='Try "machine learning", "NLP", "security", or "HCI"'
+                    class="search-input premium" 
+                    placeholder="Search professors, research areas..."
                     autocomplete="off"
                 >
-                <button id="searchBtn" class="search-btn">Search</button>
+                <div class="autocomplete-menu" id="autocompleteMenu" style="display: none;">
+                    <!-- Suggestions appear here -->
+                </div>
+                <button id="searchBtn" class="search-btn premium">Search</button>
             </div>
 
-            <!-- Results Header -->
-            <div class="search-meta">
+            <!-- Quick Research Area Chips -->
+            <div class="quick-explore">
+                <div class="quick-label">Quick Explore:</div>
+                <div class="chips-container">
+                    <button class="chip" data-keyword="artificial intelligence">AI</button>
+                    <button class="chip" data-keyword="machine learning">ML</button>
+                    <button class="chip" data-keyword="NLP">NLP</button>
+                    <button class="chip" data-keyword="HCI">HCI</button>
+                    <button class="chip" data-keyword="security">Security</button>
+                    <button class="chip" data-keyword="computer vision">Vision</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Separator -->
+    <div class="section-separator"></div>
+
+    <!-- RESEARCH AREA EXPLORER -->
+    <section id="explore" class="research-explorer">
+        <div class="container">
+            <div class="section-header">
+                <h2>Research Areas</h2>
+                <p>Click any area to explore professors and opportunities</p>
+            </div>
+
+            <div class="research-areas-grid premium">
+                <!-- Research area cards render here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Separator -->
+    <div class="section-separator"></div>
+
+    <!-- FACULTY SPOTLIGHT -->
+    <section id="spotlight" class="spotlight-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Faculty</h2>
+                <p>Meet professors making an impact in their fields</p>
+            </div>
+
+            <div class="spotlight-grid">
+                <!-- 3 featured professors render here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Separator -->
+    <div class="section-separator"></div>
+
+    <!-- RESEARCH PATHWAYS -->
+    <section id="pathways" class="pathways-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Research Pathways</h2>
+                <p>Common research interests and the faculty working in those areas</p>
+            </div>
+
+            <div class="pathways-grid">
+                <!-- Pathways render here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Separator -->
+    <div class="section-separator"></div>
+
+    <!-- MAIN RESULTS SECTION -->
+    <section id="results-section" class="results-section">
+        <div class="container">
+            <div class="results-header">
                 <h3 id="resultsTitle">All Professors</h3>
                 <button id="clearBtn" class="clear-btn" style="display: none;">Clear Search</button>
             </div>
@@ -137,37 +154,43 @@
 
             <!-- No Results Message -->
             <div id="noResults" class="no-results" style="display: none;">
-                <p>No professors found matching your search. Try different keywords or explore all professors above.</p>
-            </div>
-
-            <!-- Email Draft Section -->
-            <section id="emailSection" class="email-section" style="display: none;">
-                <h3>Email Draft</h3>
-                <textarea id="emailDraft" class="email-input" readonly></textarea>
-                <button id="copyEmailBtn" class="btn-copy">Copy Email</button>
-            </section>
-        </div>
-    </section>
-
-    <!-- Featured Research Areas Section -->
-    <section id="featured" class="section featured-section">
-        <div class="container">
-            <h2>Featured Research Areas</h2>
-            <p class="section-desc">Explore the main research domains at Purdue.</p>
-            <div class="research-areas-grid">
-                <!-- Research area cards render here -->
+                <p>No professors found. Try different keywords or explore research areas above.</p>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <p class="footer-credit">Built by Arshia Sharma</p>
-            <p class="footer-status">Incoming Purdue Data Science Student</p>
-            <p class="footer-note">Independent student-built tool for exploring Purdue research opportunities. Not affiliated with Purdue University.</p>
+            <p class="footer-note">A research discovery tool for Purdue students exploring undergraduate research opportunities.</p>
         </div>
     </footer>
+
+    <!-- EMAIL MODAL -->
+    <div id="emailModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-header">
+                <h3>Outreach Draft</h3>
+                <p id="modalProfName"></p>
+            </div>
+            <div class="progress-container">
+                <div class="progress-label">Personalized & Ready</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="--progress: 100%;"></div>
+                </div>
+            </div>
+            <textarea id="emailDraft" class="email-input modal-input" readonly></textarea>
+            <div class="modal-actions">
+                <button id="copyEmailBtn" class="btn-copy">Copy Email</button>
+                <button class="btn-secondary" onclick="closeEmailModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="emailModalOverlay" class="modal-overlay" style="display: none;" onclick="closeEmailModal()"></div>
 
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
