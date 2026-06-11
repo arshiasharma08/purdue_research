@@ -1,1 +1,188 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purdue Research Matchmaker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Background layers -->
+    <div class="bg-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="grid-overlay"></div>
+        <div class="particles"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">Purdue Research Matchmaker</div>
+            <nav class="nav">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#explore" class="nav-link">Explore</a>
+                <a href="#highlights" class="nav-link">Highlights</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-inner">
+            <div class="hero-badge">Research Discovery Tool</div>
+            <h1 class="hero-title">Purdue <span class="gradient-text">Research Matchmaker</span></h1>
+            <p class="hero-subtitle">Explore Purdue professors by research area, compare potential faculty matches, and generate personalized outreach drafts for undergraduate research opportunities.</p>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-text">Faculty Profiles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8+</div>
+                    <div class="stat-text">Research Areas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">Instant</div>
+                    <div class="stat-text">Keyword Matching</div>
+                </div>
+            </div>
+
+            <a href="#explore" class="cta-button">Start Exploring</a>
+            <p class="hero-note">Independent student-built tool for research exploration.</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+        <div class="container">
+            <h2>Why I Built This</h2>
+            <div class="about-card">
+                <p class="about-text">As I started exploring undergraduate research at Purdue, I wanted a better way to organize professors by research interests and identify labs that aligned with my goals. I built this project to practice Python Flask, JavaScript filtering, frontend design, and research outreach preparation.</p>
+                
+                <p class="about-text">This tool helps students quickly search faculty profiles, compare research areas, and generate a starting point for personalized outreach emails.</p>
+
+                <div class="features-grid">
+                    <div class="feature-box">
+                        <div class="feature-title">Smart Search</div>
+                        <p>Filter professors by keyword or research area</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-title">Research Matching</div>
+                        <p>Find labs aligned with your interests</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-title">Email Generator</div>
+                        <p>Create personalized outreach emails instantly</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Explore Section -->
+    <section id="explore" class="section explore-section">
+        <div class="container">
+            <h2>Find Professors</h2>
+            <p class="section-desc">Search by professor name, research area, or keyword.</p>
+
+            <!-- Filter Chips -->
+            <div class="chips-container">
+                <button class="chip" data-keyword="machine learning">Machine Learning</button>
+                <button class="chip" data-keyword="NLP">NLP</button>
+                <button class="chip" data-keyword="security">Security</button>
+                <button class="chip" data-keyword="privacy">Privacy</button>
+                <button class="chip" data-keyword="HCI">HCI</button>
+                <button class="chip" data-keyword="computer vision">Computer Vision</button>
+                <button class="chip" data-keyword="robotics">Robotics</button>
+                <button class="chip" data-keyword="databases">Databases</button>
+                <button class="chip" data-keyword="data science">Data Science</button>
+                <button class="chip" data-keyword="AI">AI</button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-wrapper">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder='Try "machine learning", "NLP", "security", or "HCI"'
+                    autocomplete="off"
+                >
+                <button id="searchBtn" class="search-btn">Search</button>
+            </div>
+
+            <!-- Results Header -->
+            <div class="search-meta">
+                <h3 id="resultsTitle">All Professors</h3>
+                <button id="clearBtn" class="clear-btn" style="display: none;">Clear Search</button>
+            </div>
+
+            <!-- Professor Cards Grid -->
+            <div id="results" class="grid-professors">
+                <!-- Professor cards render here -->
+            </div>
+
+            <!-- No Results Message -->
+            <div id="noResults" class="no-results" style="display: none;">
+                <p>No professors found matching your search. Try different keywords or explore all professors above.</p>
+            </div>
+
+            <!-- Email Draft Section -->
+            <section id="emailSection" class="email-section" style="display: none;">
+                <h3>Email Draft</h3>
+                <textarea id="emailDraft" class="email-input" readonly></textarea>
+                <button id="copyEmailBtn" class="btn-copy">Copy Email</button>
+            </section>
+        </div>
+    </section>
+
+    <!-- Highlights Section -->
+    <section id="highlights" class="section highlights-section">
+        <div class="container">
+            <h2>What I Built</h2>
+            <div class="highlights-grid">
+                <div class="highlight-item">
+                    <div class="highlight-title">Python Flask App</div>
+                    <p>Backend server with template rendering and static file serving</p>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-title">JavaScript Search Logic</div>
+                    <p>Real-time professor filtering with event delegation</p>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-title">Keyword Matching</div>
+                    <p>Algorithm that ranks professors by relevance score</p>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-title">Email Draft Generator</div>
+                    <p>Dynamic email templates with personalization</p>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-title">Responsive Frontend</div>
+                    <p>Modern design that works on desktop, tablet, and mobile</p>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-title">Research Outreach Prep</div>
+                    <p>Practical tool for preparing undergraduate research applications</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-credit">Built by Arshia Sharma</p>
+            <p class="footer-status">Incoming Purdue Data Science Student</p>
+            <p class="footer-note">Independent student-built tool for exploring Purdue research opportunities. Not affiliated with Purdue University.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
