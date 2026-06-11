@@ -1,6 +1,6 @@
 /**
- * Purdue Research Matchmaker - JavaScript (Updated)
- * Search, filter, email generation, and featured research areas
+ * Purdue Research Matchmaker - JavaScript (Updated v2)
+ * Professional email template
  */
 
 // ====================================
@@ -16,7 +16,7 @@ const professors = [
         research: ["NLP", "Machine Learning", "Text Analysis"],
         keywords: ["nlp", "language", "text", "machine learning", "processing"],
         bestFit: "Students interested in natural language processing and computational linguistics.",
-        outreachAngle: "Mention an NLP project or text analysis work you've done."
+        interests: "natural language processing and text analysis"
     },
     {
         id: 2,
@@ -26,7 +26,7 @@ const professors = [
         research: ["Human-Agent Interaction", "HCI", "Interactive AI"],
         keywords: ["hci", "interaction", "human", "ai", "interface"],
         bestFit: "Students interested in how people interact with AI systems.",
-        outreachAngle: "Share interest in user interface design or human-centered AI."
+        interests: "human-centered AI and interactive systems"
     },
     {
         id: 3,
@@ -36,7 +36,7 @@ const professors = [
         research: ["HCI", "UI Understanding", "AI Interface Design"],
         keywords: ["hci", "ui", "interface", "design", "human-centered"],
         bestFit: "Students focused on interface design and AI usability.",
-        outreachAngle: "Discuss a project involving UI design or usability testing."
+        interests: "interface design and user experience"
     },
     {
         id: 4,
@@ -46,7 +46,7 @@ const professors = [
         research: ["Graph Algorithms", "Data Science", "Network Analysis"],
         keywords: ["graph", "network", "data science", "algorithms", "computing"],
         bestFit: "Students interested in graph algorithms and network analysis.",
-        outreachAngle: "Mention a graph-based or network analysis project."
+        interests: "data science and network analysis"
     },
     {
         id: 5,
@@ -56,7 +56,7 @@ const professors = [
         research: ["Machine Learning", "Data Mining", "Relational Data"],
         keywords: ["machine learning", "data mining", "learning", "data science"],
         bestFit: "Students interested in machine learning on complex data.",
-        outreachAngle: "Share a machine learning or data mining project."
+        interests: "machine learning and data mining"
     },
     {
         id: 6,
@@ -66,7 +66,7 @@ const professors = [
         research: ["Privacy", "Security", "Access Control"],
         keywords: ["privacy", "security", "access control", "cybersecurity"],
         bestFit: "Students focused on privacy and security systems.",
-        outreachAngle: "Mention interest in privacy-preserving technologies."
+        interests: "privacy and security systems"
     },
     {
         id: 7,
@@ -76,7 +76,7 @@ const professors = [
         research: ["Computer Vision", "Robotics", "Human Behavior Modeling"],
         keywords: ["vision", "robotics", "human", "behavior", "computer vision"],
         bestFit: "Students interested in computer vision and robotics.",
-        outreachAngle: "Share a computer vision or robotics project."
+        interests: "computer vision and robotics"
     },
     {
         id: 8,
@@ -86,7 +86,7 @@ const professors = [
         research: ["Database Security", "Privacy", "Data Protection"],
         keywords: ["database", "security", "privacy", "data protection", "access"],
         bestFit: "Students interested in database systems and security.",
-        outreachAngle: "Discuss interest in secure database systems."
+        interests: "database security and data protection"
     },
     {
         id: 9,
@@ -96,7 +96,7 @@ const professors = [
         research: ["Data Privacy", "Machine Learning Security", "Databases"],
         keywords: ["privacy", "security", "machine learning", "database"],
         bestFit: "Students interested in privacy-preserving machine learning.",
-        outreachAngle: "Mention interest in secure machine learning systems."
+        interests: "secure machine learning systems"
     },
     {
         id: 10,
@@ -106,7 +106,7 @@ const professors = [
         research: ["Programming Languages", "Compilers", "Software Systems"],
         keywords: ["programming", "languages", "compiler", "software"],
         bestFit: "Students interested in language design and compilation.",
-        outreachAngle: "Share interest in programming language design."
+        interests: "programming language design and optimization"
     },
     {
         id: 11,
@@ -116,7 +116,7 @@ const professors = [
         research: ["Machine Learning", "AI", "Data Science"],
         keywords: ["machine learning", "ai", "data science", "algorithms"],
         bestFit: "Students interested in machine learning and AI.",
-        outreachAngle: "Discuss a machine learning or AI project."
+        interests: "machine learning and artificial intelligence"
     },
     {
         id: 12,
@@ -126,7 +126,7 @@ const professors = [
         research: ["Human-AI Interaction", "Crowdsourcing", "HCI"],
         keywords: ["human", "ai", "interaction", "crowdsourcing", "decision"],
         bestFit: "Students interested in human-AI collaboration.",
-        outreachAngle: "Mention interest in human-centered AI systems."
+        interests: "human-AI interaction and collaboration"
     },
     {
         id: 13,
@@ -136,7 +136,7 @@ const professors = [
         research: ["Machine Learning", "Statistics", "Optimization"],
         keywords: ["machine learning", "statistics", "optimization", "algorithms"],
         bestFit: "Students interested in ML theory and statistics.",
-        outreachAngle: "Share interest in machine learning algorithms."
+        interests: "machine learning algorithms and optimization"
     },
     {
         id: 14,
@@ -146,7 +146,7 @@ const professors = [
         research: ["AI", "Computational Sustainability", "Optimization"],
         keywords: ["ai", "optimization", "machine learning", "sustainability"],
         bestFit: "Students interested in AI for real-world impact.",
-        outreachAngle: "Discuss interest in practical AI applications."
+        interests: "AI applications and computational sustainability"
     },
     {
         id: 15,
@@ -156,7 +156,7 @@ const professors = [
         research: ["Computer Vision", "Graphics", "Machine Learning"],
         keywords: ["vision", "graphics", "computer vision", "machine learning"],
         bestFit: "Students interested in computer vision and graphics.",
-        outreachAngle: "Share a computer vision or graphics project."
+        interests: "computer vision and graphics"
     }
 ];
 
@@ -364,7 +364,7 @@ function createProfessorCard(prof) {
 }
 
 // ====================================
-// EMAIL GENERATION WITH PROGRESS BARS
+// EMAIL GENERATION - PROFESSIONAL TEMPLATE
 // ====================================
 
 function generateEmailDraft(profId) {
@@ -373,26 +373,28 @@ function generateEmailDraft(profId) {
     
     const lastName = prof.name.split(' ').pop();
     const researchArea = prof.research[0];
+    const studentName = "Arshia Sharma";
+    const interests = prof.interests;
+    const skills = "Python, Flask, JavaScript, data analysis, and research tools";
     
     const emailText = `Dear Professor ${lastName},
 
-My name is Arshia Sharma, and I will be an incoming freshman at Purdue University majoring in Data Science with a minor in AI. I recently read about your work in ${researchArea}, and I found it especially interesting.
+My name is ${studentName}, and I am interested in undergraduate research opportunities related to ${researchArea}.
 
-I have been building personal projects involving Python, Flask, JavaScript, data analysis, and research discovery tools. I am interested in gaining undergraduate research experience and would love to learn more about opportunities to contribute through coding, data analysis, testing, or research support.
+I recently learned about your work in ${researchArea}, and I found it particularly interesting because of my interests in ${interests}.
 
-I would also be happy to reconnect once the semester begins if that would be a better time.
+I have experience with ${skills}, and I would love to learn more about opportunities to contribute to your research group.
 
-Thank you for your time.
+Thank you for your time and consideration. I would be happy to discuss any potential opportunities further.
 
-Kind regards,
-Arshia Sharma`;
+Best regards,
+${studentName}`;
     
     const emailDraft = document.getElementById('emailDraft');
     const emailSection = document.getElementById('emailSection');
     
     if (!emailDraft || !emailSection) return;
     
-    emailDraft.value = emailText;
     emailSection.innerHTML = `
         <h3>Email Draft</h3>
         <div class="progress-container">
