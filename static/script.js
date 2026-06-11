@@ -1,6 +1,6 @@
 /**
- * Purdue Research Matchmaker - FIXED JavaScript
- * All functionality working: search, autocomplete, email, navigation
+ * Purdue Research Matchmaker - FIXED v2
+ * Auto-scroll to results on search
  */
 
 const professors = [
@@ -80,22 +80,24 @@ function setupEventListeners() {
         }
     });
     
-    // Search Button
+    // Search Button - WITH AUTO-SCROLL
     if (searchBtn) {
         searchBtn.addEventListener('click', function() {
             if (searchInput) {
                 const query = searchInput.value.trim();
                 search(query);
+                scrollToResults();
             }
         });
     }
     
-    // Search Input - Enter Key
+    // Search Input - Enter Key - WITH AUTO-SCROLL
     if (searchInput) {
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 search(this.value.trim());
+                scrollToResults();
             }
         });
     }
@@ -126,7 +128,7 @@ function setupEventListeners() {
         copyEmailBtn.addEventListener('click', copyEmailToClipboard);
     }
     
-    // Quick Chips - Event Delegation
+    // Quick Chips - Event Delegation - WITH AUTO-SCROLL
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('chip')) {
             const keyword = e.target.getAttribute('data-keyword');
@@ -134,12 +136,13 @@ function setupEventListeners() {
                 searchInput.value = keyword;
                 e.target.classList.add('active');
                 search(keyword);
+                scrollToResults();
                 closeAutocomplete();
             }
         }
     });
     
-    // Research Area Cards - Event Delegation
+    // Research Area Cards - Event Delegation - WITH AUTO-SCROLL
     document.addEventListener('click', function(e) {
         const card = e.target.closest('.research-card');
         if (card && !e.target.classList.contains('research-count')) {
@@ -153,7 +156,7 @@ function setupEventListeners() {
         }
     });
     
-    // Spotlight Buttons - Event Delegation
+    // Spotlight Buttons - Event Delegation - WITH AUTO-SCROLL
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('spotlight-btn')) {
             const profName = e.target.getAttribute('data-prof-name');
@@ -243,6 +246,7 @@ function showAutocomplete(suggestions) {
             }
             closeAutocomplete();
             search(value);
+            scrollToResults();
         });
     });
 }
@@ -290,6 +294,7 @@ function handleAutocompleteKeys(e) {
         }
         closeAutocomplete();
         search(value);
+        scrollToResults();
     }
 }
 
@@ -526,7 +531,7 @@ function openEmailModal(profId) {
     if (!prof) return;
     
     const lastName = prof.name.split(' ').pop();
-    const studentName = "[Your Name]";
+    const studentName = "Arshia Sharma";
     const researchArea = prof.research[0];
     const interests = prof.interests;
     const skills = "Python, Flask, JavaScript, data analysis, and research tools";
@@ -611,9 +616,10 @@ function updateActiveNav() {
 function scrollToResults() {
     const section = document.getElementById('results-section');
     if (section) {
+        // Scroll with a small delay to ensure DOM updates first
         setTimeout(() => {
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
+        }, 100);
     }
 }
 
