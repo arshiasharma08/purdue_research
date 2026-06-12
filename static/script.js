@@ -1,6 +1,6 @@
 /**
- * Purdue Research Matchmaker - FINAL
- * Auto-scroll ONLY when searching
+ * Purdue Research Matchmaker - FIXED JavaScript
+ * All functionality working: search, autocomplete, email, navigation
  */
 
 const professors = [
@@ -63,6 +63,7 @@ function setupEventListeners() {
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
     const clearBtn = document.getElementById('clearBtn');
+    const ctaBtn = document.querySelector('[data-scroll-to]');
     const emailModalOverlay = document.getElementById('emailModalOverlay');
     const copyEmailBtn = document.getElementById('copyEmailBtn');
     
@@ -79,24 +80,22 @@ function setupEventListeners() {
         }
     });
     
-    // Search Button - WITH SCROLL
+    // Search Button
     if (searchBtn) {
         searchBtn.addEventListener('click', function() {
             if (searchInput) {
                 const query = searchInput.value.trim();
                 search(query);
-                scrollToResults();
             }
         });
     }
     
-    // Search Input - Enter Key - WITH SCROLL
+    // Search Input - Enter Key
     if (searchInput) {
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 search(this.value.trim());
-                scrollToResults();
             }
         });
     }
@@ -104,6 +103,17 @@ function setupEventListeners() {
     // Clear Button
     if (clearBtn) {
         clearBtn.addEventListener('click', clearSearch);
+    }
+    
+    // Hero CTA Button
+    if (ctaBtn) {
+        ctaBtn.addEventListener('click', function() {
+            const target = this.getAttribute('data-scroll-to');
+            const section = document.getElementById(target);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     }
     
     // Modal Close Button
@@ -116,7 +126,7 @@ function setupEventListeners() {
         copyEmailBtn.addEventListener('click', copyEmailToClipboard);
     }
     
-    // Quick Chips - WITH SCROLL
+    // Quick Chips - Event Delegation
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('chip')) {
             const keyword = e.target.getAttribute('data-keyword');
@@ -124,13 +134,12 @@ function setupEventListeners() {
                 searchInput.value = keyword;
                 e.target.classList.add('active');
                 search(keyword);
-                scrollToResults();
                 closeAutocomplete();
             }
         }
     });
     
-    // Research Area Cards - WITH SCROLL
+    // Research Area Cards - Event Delegation
     document.addEventListener('click', function(e) {
         const card = e.target.closest('.research-card');
         if (card && !e.target.classList.contains('research-count')) {
@@ -144,7 +153,7 @@ function setupEventListeners() {
         }
     });
     
-    // Spotlight Buttons - WITH SCROLL
+    // Spotlight Buttons - Event Delegation
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('spotlight-btn')) {
             const profName = e.target.getAttribute('data-prof-name');
@@ -157,7 +166,7 @@ function setupEventListeners() {
         }
     });
     
-    // Professor Generate Email Button
+    // Professor Generate Email Button - Event Delegation
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('prof-button')) {
             e.preventDefault();
@@ -166,7 +175,7 @@ function setupEventListeners() {
         }
     });
     
-    // Professor Expand Button
+    // Professor Expand Button - Event Delegation
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('expand-btn')) {
             e.preventDefault();
@@ -234,7 +243,6 @@ function showAutocomplete(suggestions) {
             }
             closeAutocomplete();
             search(value);
-            scrollToResults();
         });
     });
 }
@@ -282,7 +290,6 @@ function handleAutocompleteKeys(e) {
         }
         closeAutocomplete();
         search(value);
-        scrollToResults();
     }
 }
 
@@ -418,6 +425,7 @@ function clearSearch() {
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.value = '';
+        // Clear active chip state
         document.querySelectorAll('.chip.active').forEach(chip => {
             chip.classList.remove('active');
         });
@@ -461,6 +469,7 @@ function populateSpotlight() {
     const grid = document.querySelector('.spotlight-grid');
     if (!grid) return;
     
+    // Randomize 3 professors
     const shuffled = [...professors].sort(() => Math.random() - 0.5);
     const featured = shuffled.slice(0, 3);
     
@@ -604,7 +613,7 @@ function scrollToResults() {
     if (section) {
         setTimeout(() => {
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
+        }, 300);
     }
 }
 
