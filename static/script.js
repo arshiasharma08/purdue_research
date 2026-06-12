@@ -950,6 +950,21 @@ function scrollToResults() {
         setTimeout(() => {
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
+      // Hero button smooth scroll
+
+    document.querySelectorAll('[data-scroll-to]').forEach(button => {
+    button.addEventListener('click', () => {
+        const targetId = button.dataset.scrollTo;
+        const target = document.getElementById(targetId);
+
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
     }
 }
 
