@@ -1,4 +1,4 @@
-/* FIXES: Button text visibility, branding, pointer-events */
+/* TEAL COLOR SCHEME */
 
 :root {
     --bg-0: #0E1116;
@@ -6,16 +6,16 @@
     --bg-2: #11151C;
     --card-bg: rgba(23, 27, 34, 0.78);
     --card-bg-light: rgba(30, 35, 42, 0.55);
-    --accent: #F97316;
-    --accent-light: #FDBA74;
-    --accent-soft: #FFF7ED;
+    --accent: #0d9488;          /* Teal main */
+    --accent-light: #14b8a6;    /* Teal light */
+    --accent-soft: #d1fae5;     /* Teal soft */
     --text-1: #F9FAFB;
     --text-2: #A1A1AA;
     --text-3: #71717A;
     --border: rgba(255, 255, 255, 0.08);
     --border-strong: rgba(255, 255, 255, 0.12);
-    --glow: rgba(249, 115, 22, 0.18);
-    --glow-strong: rgba(249, 115, 22, 0.35);
+    --glow: rgba(13, 148, 136, 0.18);
+    --glow-strong: rgba(13, 148, 136, 0.35);
 }
 
 * {
@@ -43,7 +43,7 @@ body {
 }
 
 /* ====================================
-   BACKGROUND - pointer-events: none
+   BACKGROUND
    ==================================== */
 
 .bg-container {
@@ -70,7 +70,7 @@ body {
     height: 400px;
     top: -100px;
     right: -100px;
-    background: radial-gradient(circle, rgba(249, 115, 22, 0.2) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(13, 148, 136, 0.2) 0%, transparent 70%);
 }
 
 .orb-2 {
@@ -78,7 +78,7 @@ body {
     height: 500px;
     bottom: -150px;
     left: -150px;
-    background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(13, 148, 136, 0.15) 0%, transparent 70%);
 }
 
 .grid-overlay {
@@ -86,8 +86,8 @@ body {
     width: 100%;
     height: 100%;
     background-image: 
-        linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(13, 148, 136, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(13, 148, 136, 0.03) 1px, transparent 1px);
     background-size: 50px 50px;
     pointer-events: none;
 }
@@ -100,7 +100,7 @@ body {
 }
 
 /* ====================================
-   HEADER / BRANDING
+   HEADER
    ==================================== */
 
 .header {
@@ -261,8 +261,13 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
+@media (max-width: 768px) {
+    .hero { padding: 80px 20px 60px; }
+    .hero-title { font-size: 42px; }
+}
+
 /* ====================================
-   CTA BUTTON - FIXED TEXT VISIBILITY
+   CTA BUTTON
    ==================================== */
 
 .cta-button {
@@ -291,11 +296,6 @@ body {
     transform: translateY(-2px);
 }
 
-@media (max-width: 768px) {
-    .hero { padding: 80px 20px 60px; }
-    .hero-title { font-size: 42px; }
-}
-
 /* ====================================
    SEARCH SECTION
    ==================================== */
@@ -304,7 +304,7 @@ body {
     padding: 60px 20px;
     position: relative;
     z-index: 1;
-    background: linear-gradient(180deg, transparent 0%, rgba(249, 115, 22, 0.03) 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(13, 148, 136, 0.03) 100%);
 }
 
 .search-header {
@@ -414,7 +414,7 @@ body {
 
 .autocomplete-item:hover,
 .autocomplete-item.selected {
-    background: rgba(249, 115, 22, 0.1);
+    background: rgba(13, 148, 136, 0.1);
     color: var(--accent);
 }
 
@@ -454,7 +454,7 @@ body {
 
 .chip:hover {
     border-color: var(--accent);
-    background: rgba(249, 115, 22, 0.1);
+    background: rgba(13, 148, 136, 0.1);
     transform: translateY(-2px);
 }
 
@@ -534,7 +534,7 @@ body {
 .research-card:hover {
     border-color: var(--accent);
     transform: translateY(-12px);
-    box-shadow: 0 20px 60px rgba(249, 115, 22, 0.2);
+    box-shadow: 0 20px 60px rgba(13, 148, 136, 0.2);
 }
 
 .research-card:hover::before {
@@ -561,8 +561,8 @@ body {
 
 .research-count {
     display: inline-block;
-    background: rgba(249, 115, 22, 0.1);
-    border: 1px solid rgba(249, 115, 22, 0.2);
+    background: rgba(13, 148, 136, 0.1);
+    border: 1px solid rgba(13, 148, 136, 0.2);
     color: var(--accent);
     padding: 6px 12px;
     border-radius: 20px;
@@ -591,7 +591,7 @@ body {
 
 .spotlight-card {
     background: var(--card-bg);
-    border: 1px solid rgba(249, 115, 22, 0.2);
+    border: 1px solid rgba(13, 148, 136, 0.2);
     border-radius: 16px;
     padding: 32px;
     animation: slideUp 0.6s ease-out both;
@@ -604,7 +604,7 @@ body {
 .spotlight-card:hover {
     border-color: var(--accent);
     transform: translateY(-8px);
-    box-shadow: 0 20px 50px rgba(249, 115, 22, 0.15);
+    box-shadow: 0 20px 50px rgba(13, 148, 136, 0.15);
 }
 
 .spotlight-name {
@@ -677,7 +677,7 @@ body {
     color: var(--text-1);
     margin-bottom: 24px;
     padding: 12px;
-    background: rgba(249, 115, 22, 0.1);
+    background: rgba(13, 148, 136, 0.1);
     border-left: 3px solid var(--accent);
     border-radius: 4px;
 }
@@ -787,13 +787,13 @@ body {
 
 .prof-card.best-match {
     border-color: var(--accent);
-    background: linear-gradient(135deg, rgba(249, 115, 22, 0.05), transparent);
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.05), transparent);
 }
 
 .prof-card:hover {
     border-color: var(--accent);
     transform: translateY(-8px);
-    box-shadow: 0 20px 50px rgba(249, 115, 22, 0.15);
+    box-shadow: 0 20px 50px rgba(13, 148, 136, 0.15);
 }
 
 .match-badge {
@@ -847,7 +847,7 @@ body {
 }
 
 .prof-tag {
-    background: rgba(249, 115, 22, 0.1);
+    background: rgba(13, 148, 136, 0.1);
     color: var(--accent-light);
     padding: 4px 10px;
     border-radius: 4px;
@@ -927,7 +927,7 @@ body {
 
 .expand-btn:hover {
     border-color: var(--accent);
-    background: rgba(249, 115, 22, 0.05);
+    background: rgba(13, 148, 136, 0.05);
 }
 
 .prof-expanded {
